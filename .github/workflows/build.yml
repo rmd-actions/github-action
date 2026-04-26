@@ -10,7 +10,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  RENOVATE_VERSION: 43.59.3 # renovate: datasource=docker depName=ghcr.io/renovatebot/renovate
+  RENOVATE_VERSION: 43.141.5 # renovate: datasource=docker depName=ghcr.io/renovatebot/renovate
 
 jobs:
   prepare:
@@ -60,6 +60,22 @@ jobs:
 
       - name: Lint
         run: pnpm lint
+
+  lint-actions:
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          show-progress: false
+
+      - name: Run zizmor
+        uses: zizmorcore/zizmor-action@b1d7e1fb5de872772f31590499237e7cce841e8e # v0.5.3
+        with:
+          version: 1.24.1
 
   e2e:
     needs:
@@ -117,7 +133,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     container:
-      image: ghcr.io/renovatebot/renovate:43.59.3@sha256:bbde9510bd177bfe747530c7abf4fd6c1b6f905623a7725bc744dcdd5b8097fa
+      image: ghcr.io/renovatebot/renovate:43.141.5@sha256:8fb9e3cfdadc0994fb87f57be624d1c1940c41c1c53c074465caff85a2b6d3a4
       # github hosted runners are running as `1001:127` (ubuntu:docker)
       options: -u 1001:0 --group-add 1000 --group-add 12021 --group-add 127
 
@@ -135,6 +151,7 @@ jobs:
     needs:
       - lint
       - commitlint
+      - lint-actions
       - e2e
       - renovate-config-validator
     runs-on: ubuntu-latest
