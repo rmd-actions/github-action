@@ -98,7 +98,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v6.0.3
       - name: Self-hosted Renovate
         uses: renovatebot/github-action@v46.1.14
         with:
@@ -141,7 +141,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v6.0.3
       - name: Self-hosted Renovate
         uses: renovatebot/github-action@v46.1.14
         with:
@@ -193,7 +193,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v6.0.3
       - name: Self-hosted Renovate
         uses: renovatebot/github-action@v46.1.14
         with:
@@ -210,7 +210,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v6.0.3
       - name: Self-hosted Renovate
         uses: renovatebot/github-action@v46.1.14
         with:
@@ -223,7 +223,7 @@ The Renovate version to use.
 If omitted the action will use the [`default version`](./action.yml#L28) Docker tag.
 Check [the available tags on Docker Hub](https://hub.docker.com/r/renovate/renovate/tags).
 
-This sample will use `ghcr.io/renovatebot/renovate:43.173.0` image.
+This sample will use `ghcr.io/renovatebot/renovate:43.220.0` image.
 
 ```yml
 ....
@@ -232,11 +232,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v6.0.3
       - name: Self-hosted Renovate
         uses: renovatebot/github-action@v46.1.14
         with:
-          renovate-version: 43.173.0
+          renovate-version: 43.220.0
           token: ${{ secrets.RENOVATE_TOKEN }}
 ```
 
@@ -249,7 +249,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v6.0.3
       - name: Self-hosted Renovate
         uses: renovatebot/github-action@v46.1.14
         with:
@@ -284,7 +284,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v6.0.3
       - name: Self-hosted Renovate
         uses: renovatebot/github-action@v46.1.14
         with:
@@ -343,7 +343,7 @@ jobs:
           repositories: 'repo1,repo2'
 
       - name: Checkout
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v6.0.3
 
       - name: Self-hosted Renovate
         uses: renovatebot/github-action@v46.1.14
@@ -383,7 +383,7 @@ For example if you wish to pass through some credentials for a [host rule](https
        runs-on: ubuntu-latest
        steps:
          - name: Checkout
-           uses: actions/checkout@v6.0.2
+           uses: actions/checkout@v6.0.3
          - name: Self-hosted Renovate
            uses: renovatebot/github-action@v46.1.14
            with:
@@ -420,7 +420,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v6.0.3
       - name: Self-hosted Renovate
         uses: renovatebot/github-action@v46.1.14
         with:
@@ -517,7 +517,7 @@ jobs:
         with:
           configurationFile: renovate.json5
           token: ${{ secrets.RENOVATE_TOKEN }}
-          renovate-version: 43.173.0
+          renovate-version: 43.220.0
         env:
           # This enables the cache -- if this is set, it's not necessary to add it to renovate.json.
           RENOVATE_REPOSITORY_CACHE: ${{ github.event.inputs.repoCache || 'enabled' }}
