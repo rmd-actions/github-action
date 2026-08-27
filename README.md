@@ -98,9 +98,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.3
+        uses: actions/checkout@v6.1.0
       - name: Self-hosted Renovate
-        uses: renovatebot/github-action@v46.1.19
+        uses: renovatebot/github-action@v46.2.2
         with:
           docker-cmd-file: .github/renovate-entrypoint.sh
           docker-user: root
@@ -141,9 +141,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.3
+        uses: actions/checkout@v6.1.0
       - name: Self-hosted Renovate
-        uses: renovatebot/github-action@v46.1.19
+        uses: renovatebot/github-action@v46.2.2
         with:
           token: ${{ secrets.RENOVATE_TOKEN }}
           docker-volumes: |
@@ -173,10 +173,14 @@ The name of the secret can be anything as long as it matches the argument given 
 Fine-grained Personal Access Tokens are now supported, as GitHub has [implemented GraphQL API support for them](https://github.com/github/roadmap/issues/622).
 However, some permission gaps may remain (for example, around `Checks` access), so a classic token is still the safer default if you run into authentication or automerge limitations.
 
-Note that the [`GITHUB_TOKEN`](https://help.github.com/en/actions/configuring-and-managing-workflows/authenticating-with-the-github_token#permissions-for-the-github_token) secret can't be used for authenticating Renovate because it has too restrictive permissions.
-In particular, using the `GITHUB_TOKEN` to create a new `Pull Request` from more types of Github Workflows results in `Pull Requests` that [do not trigger your `Pull Request` and `Push` CI events](https://docs.github.com/en/actions/security-guides/automatic-token-authentication#using-the-github_token-in-a-workflow).
-
 If you want to use the `github-actions` manager, you must setup a [special token](#special-token-requirements-when-using-the-github-actions-manager) with some requirements.
+
+> [!NOTE]
+> [`GITHUB_TOKEN`](https://help.github.com/en/actions/configuring-and-managing-workflows/authenticating-with-the-github_token#permissions-for-the-github_token)
+> can be also used; however, workflows run on RenovateBot's PRs will need to be [manually approved](https://github.blog/changelog/2026-06-11-bot-created-pull-requests-can-run-workflows-if-approved/).
+>
+> Additionally, ["Allow GitHub Actions to create and approve pull requests"](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#preventing-github-actions-from-creating-or-approving-pull-requests)
+> needs to be enabled on the repository or organisation level.
 
 ### `renovate-image`
 
@@ -193,9 +197,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.3
+        uses: actions/checkout@v6.1.0
       - name: Self-hosted Renovate
-        uses: renovatebot/github-action@v46.1.19
+        uses: renovatebot/github-action@v46.2.2
         with:
           renovate-image: myproxyhub.domain.com/renovate/renovate
           token: ${{ secrets.RENOVATE_TOKEN }}
@@ -210,9 +214,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.3
+        uses: actions/checkout@v6.1.0
       - name: Self-hosted Renovate
-        uses: renovatebot/github-action@v46.1.19
+        uses: renovatebot/github-action@v46.2.2
         with:
           token: ${{ secrets.RENOVATE_TOKEN }}
 ```
@@ -223,7 +227,7 @@ The Renovate version to use.
 If omitted the action will use the [`default version`](./action.yml#L28) Docker tag.
 Check [the available tags on Docker Hub](https://hub.docker.com/r/renovate/renovate/tags).
 
-This sample will use `ghcr.io/renovatebot/renovate:43.270.0` image.
+This sample will use `ghcr.io/renovatebot/renovate:44.30.3` image.
 
 ```yml
 ....
@@ -232,11 +236,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.3
+        uses: actions/checkout@v6.1.0
       - name: Self-hosted Renovate
-        uses: renovatebot/github-action@v46.1.19
+        uses: renovatebot/github-action@v46.2.2
         with:
-          renovate-version: 43.270.0
+          renovate-version: 44.30.3
           token: ${{ secrets.RENOVATE_TOKEN }}
 ```
 
@@ -249,9 +253,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.3
+        uses: actions/checkout@v6.1.0
       - name: Self-hosted Renovate
-        uses: renovatebot/github-action@v46.1.19
+        uses: renovatebot/github-action@v46.2.2
         with:
           renovate-version: full
           token: ${{ secrets.RENOVATE_TOKEN }}
@@ -284,9 +288,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.3
+        uses: actions/checkout@v6.1.0
       - name: Self-hosted Renovate
-        uses: renovatebot/github-action@v46.1.19
+        uses: renovatebot/github-action@v46.2.2
         with:
           configurationFile: example/renovate-config.js
           token: ${{ secrets.RENOVATE_TOKEN }}
@@ -299,7 +303,7 @@ If you want to use the Renovate Action on a GitHub Enterprise instance you have 
 ```yml
 ....
       - name: Self-hosted Renovate
-        uses: renovatebot/github-action@v46.1.19
+        uses: renovatebot/github-action@v46.2.2
         with:
           configurationFile: example/renovate-config.js
           token: ${{ secrets.RENOVATE_TOKEN }}
@@ -343,10 +347,10 @@ jobs:
           repositories: 'repo1,repo2'
 
       - name: Checkout
-        uses: actions/checkout@v6.0.3
+        uses: actions/checkout@v6.1.0
 
       - name: Self-hosted Renovate
-        uses: renovatebot/github-action@v46.1.19
+        uses: renovatebot/github-action@v46.2.2
         with:
           configurationFile: example/renovate-config.js
           token: '${{ steps.get_token.outputs.token }}'
@@ -361,7 +365,7 @@ For example:
 
 ```yaml
 - name: Self-hosted Renovate
-  uses: renovatebot/github-action@v46.1.19
+  uses: renovatebot/github-action@v46.2.2
   with:
     token: '${{ steps.get_token.outputs.token }}'
   env:
@@ -385,9 +389,9 @@ For example if you wish to pass through some credentials for a [host rule](https
        runs-on: ubuntu-latest
        steps:
          - name: Checkout
-           uses: actions/checkout@v6.0.3
+           uses: actions/checkout@v6.1.0
          - name: Self-hosted Renovate
-           uses: renovatebot/github-action@v46.1.19
+           uses: renovatebot/github-action@v46.2.2
            with:
              configurationFile: example/renovate-config.js
              token: ${{ secrets.RENOVATE_TOKEN }}
@@ -423,9 +427,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.0.3
+        uses: actions/checkout@v6.1.0
       - name: Self-hosted Renovate
-        uses: renovatebot/github-action@v46.1.19
+        uses: renovatebot/github-action@v46.2.2
         with:
           configurationFile: example/renovate-config.js
           token: ${{ secrets.RENOVATE_TOKEN }}
@@ -478,7 +482,7 @@ jobs:
     name: Renovate
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6.0.3
+      - uses: actions/checkout@v6.1.0
 
       - name: Restore renovate cache
         id: cache-restore
@@ -496,11 +500,11 @@ jobs:
           sudo chown -R 12021:0 /tmp/renovate/
           ls -R $cache_dir
 
-      - uses: renovatebot/github-action@v46.1.19
+      - uses: renovatebot/github-action@v46.2.2
         with:
           configurationFile: renovate.json5
           token: ${{ secrets.RENOVATE_TOKEN }}
-          renovate-version: 43.270.0
+          renovate-version: 44.30.3
         env:
           # This enables the cache -- if this is set, it's not necessary to add it to renovate.json.
           RENOVATE_REPOSITORY_CACHE: ${{ github.event.inputs.repoCache || 'enabled' }}
@@ -522,7 +526,7 @@ To enable debug logging, add the environment variable `LOG_LEVEL: 'debug'` to th
 
 ```yml
 - name: Self-hosted Renovate
-  uses: renovatebot/github-action@v46.1.19
+  uses: renovatebot/github-action@v46.2.2
   with:
     configurationFile: example/renovate-config.js
     token: ${{ secrets.RENOVATE_TOKEN }}
