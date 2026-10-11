@@ -10,6 +10,7 @@ GitHub Action to run Renovate self-hosted.
 
 - [Badges](#badges)
 - [Options](#options)
+  - [`additional-env-list`](#additional-env-list)
   - [`configurationFile`](#configurationfile)
   - [`docker-cmd-file`](#docker-cmd-file)
   - [`docker-network`](#docker-network)
@@ -43,6 +44,11 @@ GitHub Action to run Renovate self-hosted.
 Options can be passed using the inputs of this action or the corresponding environment variables.
 When both are passed, the input takes precedence over the environment variable.
 For the available environment variables, see the Renovate [Self-Hosted Configuration](https://docs.renovatebot.com/self-hosted-configuration/) docs.
+
+### `additional-env-list`
+
+A newline-separated list of environment variable names to pass through to the Renovate container, in addition to those already matched by [`env-regex`](#env-regex).
+See [Passing other environment variables](#passing-other-environment-variables) section for more details.
 
 ### `configurationFile`
 
@@ -98,9 +104,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.1.0
+        uses: actions/checkout@v7.0.1
       - name: Self-hosted Renovate
-        uses: renovatebot/github-action@v46.2.2
+        uses: renovatebot/github-action@v46.3.7
         with:
           docker-cmd-file: .github/renovate-entrypoint.sh
           docker-user: root
@@ -141,9 +147,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.1.0
+        uses: actions/checkout@v7.0.1
       - name: Self-hosted Renovate
-        uses: renovatebot/github-action@v46.2.2
+        uses: renovatebot/github-action@v46.3.7
         with:
           token: ${{ secrets.RENOVATE_TOKEN }}
           docker-volumes: |
@@ -197,9 +203,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.1.0
+        uses: actions/checkout@v7.0.1
       - name: Self-hosted Renovate
-        uses: renovatebot/github-action@v46.2.2
+        uses: renovatebot/github-action@v46.3.7
         with:
           renovate-image: myproxyhub.domain.com/renovate/renovate
           token: ${{ secrets.RENOVATE_TOKEN }}
@@ -214,10 +220,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.1.0
+        uses: actions/checkout@v7.0.1
       - name: Self-hosted Renovate
-        uses: renovatebot/github-action@v46.2.2
+        uses: renovatebot/github-action@v46.3.7
         with:
+          token: ${{ secrets.RENOVATE_TOKEN }}
+```
+
+It is also possible to specify a full Docker image pinned to a version (and optionally, a digest) like so:
+
+```yml
+....
+jobs:
+  renovate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+      - name: Self-hosted Renovate
+        uses: renovatebot/github-action@v46.3.7
+        with:
+          renovate-image: ghcr.io/renovatebot/renovate@sha256:0f7ba2b70c5d1a7e2d95b0f6c3d5b4a1e2f6b6a1e2f6b6a1e2f6b6a1e2f6b6a1
           token: ${{ secrets.RENOVATE_TOKEN }}
 ```
 
@@ -227,7 +250,7 @@ The Renovate version to use.
 If omitted the action will use the [`default version`](./action.yml#L28) Docker tag.
 Check [the available tags on Docker Hub](https://hub.docker.com/r/renovate/renovate/tags).
 
-This sample will use `ghcr.io/renovatebot/renovate:44.30.3` image.
+This sample will use `ghcr.io/renovatebot/renovate:44.149.2` image.
 
 ```yml
 ....
@@ -236,11 +259,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.1.0
+        uses: actions/checkout@v7.0.1
       - name: Self-hosted Renovate
-        uses: renovatebot/github-action@v46.2.2
+        uses: renovatebot/github-action@v46.3.7
         with:
-          renovate-version: 44.30.3
+          renovate-version: 44.149.2
           token: ${{ secrets.RENOVATE_TOKEN }}
 ```
 
@@ -253,9 +276,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.1.0
+        uses: actions/checkout@v7.0.1
       - name: Self-hosted Renovate
-        uses: renovatebot/github-action@v46.2.2
+        uses: renovatebot/github-action@v46.3.7
         with:
           renovate-version: full
           token: ${{ secrets.RENOVATE_TOKEN }}
@@ -288,9 +311,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6.1.0
+        uses: actions/checkout@v7.0.1
       - name: Self-hosted Renovate
-        uses: renovatebot/github-action@v46.2.2
+        uses: renovatebot/github-action@v46.3.7
         with:
           configurationFile: example/renovate-config.js
           token: ${{ secrets.RENOVATE_TOKEN }}
@@ -303,7 +326,7 @@ If you want to use the Renovate Action on a GitHub Enterprise instance you have 
 ```yml
 ....
       - name: Self-hosted Renovate
-        uses: renovatebot/github-action@v46.2.2
+        uses: renovatebot/github-action@v46.3.7
         with:
           configurationFile: example/renovate-config.js
           token: ${{ secrets.RENOVATE_TOKEN }}
@@ -347,10 +370,10 @@ jobs:
           repositories: 'repo1,repo2'
 
       - name: Checkout
-        uses: actions/checkout@v6.1.0
+        uses: actions/checkout@v7.0.1
 
       - name: Self-hosted Renovate
-        uses: renovatebot/github-action@v46.2.2
+        uses: renovatebot/github-action@v46.3.7
         with:
           configurationFile: example/renovate-config.js
           token: '${{ steps.get_token.outputs.token }}'
@@ -365,7 +388,7 @@ For example:
 
 ```yaml
 - name: Self-hosted Renovate
-  uses: renovatebot/github-action@v46.2.2
+  uses: renovatebot/github-action@v46.3.7
   with:
     token: '${{ steps.get_token.outputs.token }}'
   env:
@@ -389,9 +412,9 @@ For example if you wish to pass through some credentials for a [host rule](https
        runs-on: ubuntu-latest
        steps:
          - name: Checkout
-           uses: actions/checkout@v6.1.0
+           uses: actions/checkout@v7.0.1
          - name: Self-hosted Renovate
-           uses: renovatebot/github-action@v46.2.2
+           uses: renovatebot/github-action@v46.3.7
            with:
              configurationFile: example/renovate-config.js
              token: ${{ secrets.RENOVATE_TOKEN }}
@@ -416,9 +439,12 @@ For example if you wish to pass through some credentials for a [host rule](https
 
 ### Passing other environment variables
 
-If you want to pass other variables to the Docker container use the `env-regex` input to override the regular expression that is used to allow environment variables.
+There are two ways to pass additional variables through to the Renovate container:
 
-In your workflow pass the environment variable and whitelist it by specifying the `env-regex`:
+1. **Recommended:** use [`additional-env-list`](#additional-env-list) to list the names of the variables you want forwarded. This keeps the action's default `env-regex` in effect, so you'll continue to receive any future additions to the default allow-list. Variable names that are not present in the environment are silently ignored.
+2. Override [`env-regex`](#env-regex) with a custom regular expression. This gives you full control but also full ownership: if the action's default pattern changes, your override will not pick up those changes, and a typo in the regex can silently drop variables (including `RENOVATE_*` ones).
+
+Example using `additional-env-list` (recommended):
 
 ```yml
 ....
@@ -429,7 +455,30 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6.1.0
       - name: Self-hosted Renovate
-        uses: renovatebot/github-action@v46.2.2
+        uses: renovatebot/github-action@v46.3.7
+        with:
+          configurationFile: example/renovate-config.js
+          token: ${{ secrets.RENOVATE_TOKEN }}
+          additional-env-list: |
+            AWS_TOKEN
+            MY_OTHER_SECRET
+        env:
+          AWS_TOKEN: ${{ secrets.AWS_TOKEN }}
+          MY_OTHER_SECRET: ${{ secrets.MY_OTHER_SECRET }}
+```
+
+Example using `env-regex` (full override):
+
+```yml
+....
+jobs:
+  renovate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+      - name: Self-hosted Renovate
+        uses: renovatebot/github-action@v46.3.7
         with:
           configurationFile: example/renovate-config.js
           token: ${{ secrets.RENOVATE_TOKEN }}
@@ -482,7 +531,7 @@ jobs:
     name: Renovate
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6.1.0
+      - uses: actions/checkout@v7.0.1
 
       - name: Restore renovate cache
         id: cache-restore
@@ -500,11 +549,11 @@ jobs:
           sudo chown -R 12021:0 /tmp/renovate/
           ls -R $cache_dir
 
-      - uses: renovatebot/github-action@v46.2.2
+      - uses: renovatebot/github-action@v46.3.7
         with:
           configurationFile: renovate.json5
           token: ${{ secrets.RENOVATE_TOKEN }}
-          renovate-version: 44.30.3
+          renovate-version: 44.149.2
         env:
           # This enables the cache -- if this is set, it's not necessary to add it to renovate.json.
           RENOVATE_REPOSITORY_CACHE: ${{ github.event.inputs.repoCache || 'enabled' }}
@@ -526,7 +575,7 @@ To enable debug logging, add the environment variable `LOG_LEVEL: 'debug'` to th
 
 ```yml
 - name: Self-hosted Renovate
-  uses: renovatebot/github-action@v46.2.2
+  uses: renovatebot/github-action@v46.3.7
   with:
     configurationFile: example/renovate-config.js
     token: ${{ secrets.RENOVATE_TOKEN }}
